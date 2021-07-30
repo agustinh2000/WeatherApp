@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.weatherapp.weatherapp
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.weatherapp.databinding.ActivityMainBinding
+import com.weatherapp.weatherapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
