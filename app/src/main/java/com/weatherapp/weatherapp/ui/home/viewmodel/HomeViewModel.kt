@@ -1,4 +1,4 @@
-package com.weatherapp.weatherapp.ui.home
+package com.weatherapp.weatherapp.ui.home.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -8,5 +8,8 @@ import kotlinx.parcelize.Parcelize
 data class WeatherResponse(
     @SerializedName("timezone")
     val timeZone: String,
-
+    @SerializedName("current")
+    val currentWeather: CurrentWeatherResponse,
+    @SerializedName("daily")
+    val weeklyWeather: Array<DailyWeatherResponse>
 ): Parcelable

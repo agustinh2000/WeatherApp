@@ -12,4 +12,14 @@ data class CurrentWeatherResponse(
     val sunrise: Number,
     @SerializedName("sunset")
     val sunset: Number,
+    @SerializedName("temp")
+    val temperature: Double,
+    @SerializedName("pressure")
+    val pressure: Number,
+    @SerializedName("humidity")
+    val humidity: Number,
+    @SerializedName("wind_speed")
+    val windSpeed: Double,
+    @SerializedName("weather")
+    val weatherDescription: WeatherDescriptionResponse
 ):Parcelable

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.weatherapp.weatherapp.databinding.FragmentHomeBinding
+import com.weatherapp.weatherapp.ui.home.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
