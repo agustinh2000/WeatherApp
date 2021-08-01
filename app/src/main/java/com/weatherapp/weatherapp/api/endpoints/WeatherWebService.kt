@@ -6,8 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherWebService {
-    @GET()
-    suspend fun getWeather(@Query ("lat") lat: Float, @Query ("lon") lon: Float
-                                 , @Query ("exclude") exclude: String,
+    @GET("onecall?")
+    suspend fun getWeather(@Query ("lat") lat: String, @Query ("lon") lon: String,
+                                 @Query("units") units:String, @Query ("exclude") exclude: String,
                            @Query("appid") appId: String): Response <WeatherResponse>
 }

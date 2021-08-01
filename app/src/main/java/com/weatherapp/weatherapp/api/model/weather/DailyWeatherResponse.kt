@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DailyWeatherResponse (
     @SerializedName("dt")
-    val dateTime: Number,
+    val dateTime: Long,
     @SerializedName("temp")
     val temperatureInfo: TemperatureResponse,
     @SerializedName("weather")
-    val weatherDescription: WeatherDescriptionResponse
+    val weatherDescription: Array<WeatherDescriptionResponse>
 ): Parcelable

@@ -7,11 +7,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CurrentWeatherResponse(
     @SerializedName("dt")
-    val dateTime: Number,
+    val dateTime: Long,
     @SerializedName("sunrise")
-    val sunrise: Number,
+    val sunrise: Long,
     @SerializedName("sunset")
-    val sunset: Number,
+    val sunset: Long,
     @SerializedName("temp")
     val temperature: Double,
     @SerializedName("pressure")
@@ -21,5 +21,5 @@ data class CurrentWeatherResponse(
     @SerializedName("wind_speed")
     val windSpeed: Double,
     @SerializedName("weather")
-    val weatherDescription: WeatherDescriptionResponse
+    val weatherDescription: Array<WeatherDescriptionResponse>
 ):Parcelable

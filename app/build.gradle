@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+apply plugin: 'com.android.application'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -16,6 +18,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -56,4 +59,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.8.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Location
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 }

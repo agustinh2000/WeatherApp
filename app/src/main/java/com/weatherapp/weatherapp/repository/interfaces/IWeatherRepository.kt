@@ -4,5 +4,5 @@ import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
 import retrofit2.Response
 
 interface IWeatherRepository {
-    suspend fun getWeather(lat: Float, lon:Float, exclude: String, appId: String): Response<WeatherResponse>
+    suspend fun getWeather(lat: String, lon:String, units:String, exclude: String, appId: String): Response<WeatherResponse>
 }
