@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.weatherapp.weatherapp.ui.helpers.BaseViewHolder
 
-abstract class GenericAdapter<T>(private val dataList: List<T>) :
+abstract class GenericAdapter<T>(private val dataList: Array<T>) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     abstract fun setViewHolder(parent: ViewGroup): BaseViewHolder<T>

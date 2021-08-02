@@ -15,14 +15,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.squareup.picasso.Picasso
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
 import com.weatherapp.weatherapp.databinding.FragmentHomeBinding
 import com.weatherapp.weatherapp.repository.implementation.WeatherRepository
+import com.weatherapp.weatherapp.ui.home.adapter.WeatherAdapter
 import com.weatherapp.weatherapp.ui.home.model.Parameter
 import com.weatherapp.weatherapp.ui.home.viewmodel.HomeViewModel
 import com.weatherapp.weatherapp.ui.home.viewmodel.HomeViewModelFactory
@@ -65,13 +68,23 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initWeeklyWeatherRecyclerView()
         setUpWeather(view)
+    }
+
+    private fun initWeeklyWeatherRecyclerView(){
+        binding.rvTimeOfTheWeek.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
     }
 
     private fun setUpWeather(view: View) {
         homeVM.fetchWeather.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 val weather = response.body() as WeatherResponse
+                binding.rvTimeOfTheWeek.adapter = WeatherAdapter(weather.weeklyWeather)
                 updateUI(weather)
             } else {
                 println(response.code())
@@ -98,15 +111,16 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.tvHumidityData.text = "${humidity} %"
         binding.tvWindData.text = "${windSpeed} m/s"
         binding.tvPressureData.text = "${pressure} hPa"
+        val icon = weather.currentWeather.weatherDescription[0].icon
+        val imageUrl = "https://openweathermap.org/img/w/$icon.png"
+        Picasso.get().load(imageUrl).into(binding.ivWeatherIcon)
     }
 
     @SuppressLint("MissingPermission")
     private fun getDeviceLocation() {
         if (hasLocationPermission()) {
-            println("hola")
             val locationResult = fusedLocationProviderClient.lastLocation
             locationResult.addOnSuccessListener { location ->
-                println("adentro")
                 parametersForGetWeather.longitude = location.longitude.toFloat()
                 parametersForGetWeather.latitude = location.latitude.toFloat()
                 homeVM.setParameters(parametersForGetWeather)
@@ -116,8 +130,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             requestLocationPermission()
         }
     }
-
-
 
     private fun hasLocationPermission() =
         EasyPermissions.hasPermissions(
