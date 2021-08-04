@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,6 +23,7 @@ import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
 import com.weatherapp.weatherapp.databinding.FragmentWeatherMapBinding
 import com.weatherapp.weatherapp.repository.implementation.WeatherRepository
 import com.weatherapp.weatherapp.ui.home.model.Parameter
+import com.weatherapp.weatherapp.ui.weatherMap.adapter.WeatherMapAdapter
 import com.weatherapp.weatherapp.ui.weatherMap.viewmodel.WeatherMapViewModel
 import com.weatherapp.weatherapp.ui.weatherMap.viewmodel.WeatherMapViewModelFactory
 
@@ -34,8 +36,6 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickL
     private val DEFAULT_ZOOM = 13
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
-    private var longitude: Float = 0.0f
-    private var latitude: Float = 0.0f
     private var parametersForGetWeather: Parameter = Parameter()
     private val weatherMapVM by viewModels<WeatherMapViewModel> {
         WeatherMapViewModelFactory(WeatherRepository())
@@ -63,6 +63,7 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickL
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        initHourlyWeatherRecyclerView()
         map = googleMap
         map!!.setOnMapClickListener(this);
         updateLocationUI()
@@ -70,10 +71,19 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickL
         setUpWeather(binding.root)
     }
 
+    private fun initHourlyWeatherRecyclerView(){
+        binding.rvHourlyWeather.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
+
     private fun setUpWeather(view: View) {
         weatherMapVM.fetchWeather.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 val weather = response.body() as WeatherResponse
+                binding.rvHourlyWeather.adapter = WeatherMapAdapter(weather.hourlyWeather.take(24).toTypedArray())
                 updateUI(weather)
             } else {
                 println(response.code())

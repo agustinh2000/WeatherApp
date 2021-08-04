@@ -11,5 +11,7 @@ data class WeatherResponse(
     @SerializedName("current")
     val currentWeather: CurrentWeatherResponse,
     @SerializedName("daily")
-    val weeklyWeather: Array<DailyWeatherResponse>
+    val weeklyWeather: Array<DailyWeatherResponse>,
+    @SerializedName("hourly")
+    val hourlyWeather: Array<HourlyWeatherResponse>
 ): Parcelable

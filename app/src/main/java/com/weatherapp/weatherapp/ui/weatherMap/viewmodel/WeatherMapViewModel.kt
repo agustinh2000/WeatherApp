@@ -16,7 +16,7 @@ class WeatherMapViewModel(private val weatherRepo: IWeatherRepository): ViewMode
 
     val fetchWeather = weatherData.switchMap { weatherData ->
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(weatherRepo.getWeather(weatherData.latitude.toString(), weatherData.longitude.toString(), Constants.DEFAULT_UNIT, weatherData.excludeResponse, Constants.API_KEY))
+            emit(weatherRepo.getWeather(weatherData.latitude.toString(), weatherData.longitude.toString(), Constants.DEFAULT_UNIT, Constants.API_KEY))
         }
     }
 }
