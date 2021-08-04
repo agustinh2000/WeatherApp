@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000a3e"
+    tools:context=".ui.home.HomeFragment">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="Tuesday, 15"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="casual"
+        android:text="Montevideo"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="2dp"
+        android:text="19°"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCity" />
+
+    <ImageView
+        android:id="@+id/ivWeatherIcon"
+        android:layout_width="102dp"
+        android:layout_height="113dp"
+        android:layout_marginStart="127dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icontest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvCity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="403dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="370dp"
+        android:src="@drawable/bottomlayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.784" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTimeOfTheWeek"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/ivSunrise"
+        android:layout_width="90dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="70dp"
+        android:background="#3CFFFFFF"
+        android:paddingBottom="50dp"
+        android:src="@drawable/sunrise"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTemperature"
+        app:layout_constraintVertical_bias="0.244"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvSunrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Sunrise"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivSunrise"
+        app:layout_constraintStart_toStartOf="@+id/ivSunrise"
+        app:layout_constraintTop_toTopOf="@+id/ivSunrise" />
+
+    <TextView
+        android:id="@+id/tvSunriseTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="5:30"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/ivSunrise"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSunrise" />
+
+    <ImageView
+        android:id="@+id/ivSunset"
+        android:layout_width="90dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:background="#3CFFFFFF"
+        android:paddingBottom="50dp"
+        android:src="@drawable/sunset"
+        app:layout_constraintEnd_toStartOf="@+id/ivWind"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintStart_toEndOf="@+id/ivSunrise"
+        app:layout_constraintTop_toBottomOf="@+id/tvTemperature"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvSunset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Sunset"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivSunset"
+        app:layout_constraintStart_toStartOf="@+id/ivSunset"
+        app:layout_constraintTop_toTopOf="@+id/ivSunset" />
+
+    <TextView
+        android:id="@+id/tvSunsetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="10dp"
+        android:text="7:30"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/ivSunset"
+        app:layout_constraintStart_toStartOf="@+id/ivSunset"
+        app:layout_constraintTop_toBottomOf="@+id/tvSunset" />
+
+    <ImageView
+        android:id="@+id/ivWind"
+        android:layout_width="90dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="28dp"
+        android:background="#3CFFFFFF"
+        android:paddingBottom="50dp"
+        android:src="@drawable/wind"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivWeatherIcon"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvWind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Wind"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivWind"
+        app:layout_constraintStart_toStartOf="@+id/ivWind"
+        app:layout_constraintTop_toTopOf="@+id/ivWind" />
+
+    <TextView
+        android:id="@+id/tvWindData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="7:30"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/ivWind"
+        app:layout_constraintStart_toStartOf="@+id/ivWind"
+        app:layout_constraintTop_toBottomOf="@+id/tvWind" />
+
+    <ImageView
+        android:id="@+id/ivHumidity"
+        android:layout_width="90dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="#3CFFFFFF"
+        android:paddingBottom="50dp"
+        android:src="@drawable/humidity"
+        app:layout_constraintEnd_toStartOf="@+id/ivPressure"
+        app:layout_constraintTop_toBottomOf="@+id/ivSunrise"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Humidity"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivHumidity"
+        app:layout_constraintStart_toStartOf="@+id/ivHumidity"
+        app:layout_constraintTop_toTopOf="@+id/ivHumidity" />
+
+    <TextView
+        android:id="@+id/tvHumidityData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="10 %"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/ivHumidity"
+        app:layout_constraintStart_toStartOf="@+id/ivHumidity"
+        app:layout_constraintTop_toBottomOf="@+id/tvHumidity" />
+
+    <ImageView
+        android:id="@+id/ivPressure"
+        android:layout_width="90dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="100dp"
+        android:background="#3CFFFFFF"
+        android:paddingBottom="50dp"
+        android:src="@drawable/pressure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivWind"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tvPressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Pressure"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivPressure"
+        app:layout_constraintStart_toStartOf="@+id/ivPressure"
+        app:layout_constraintTop_toTopOf="@+id/ivPressure" />
+
+    <TextView
+        android:id="@+id/tvPressureData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="5:30"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/ivPressure"
+        app:layout_constraintStart_toStartOf="@+id/ivPressure"
+        app:layout_constraintTop_toBottomOf="@+id/tvPressure" />
+</androidx.constraintlayout.widget.ConstraintLayout>
