@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,12 +16,17 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.squareup.picasso.Picasso
 import com.weatherapp.weatherapp.R
+import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
 import com.weatherapp.weatherapp.databinding.FragmentWeatherMapBinding
+import com.weatherapp.weatherapp.repository.implementation.WeatherRepository
+import com.weatherapp.weatherapp.ui.home.model.Parameter
+import com.weatherapp.weatherapp.ui.weatherMap.viewmodel.WeatherMapViewModel
+import com.weatherapp.weatherapp.ui.weatherMap.viewmodel.WeatherMapViewModelFactory
 
-class WeatherMapFragment : Fragment(), OnMapReadyCallback {
+class WeatherMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentWeatherMapBinding? = null
     private val binding get() = _binding!!
     private var map: GoogleMap? = null
@@ -31,14 +36,17 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback {
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
     private var longitude: Float = 0.0f
     private var latitude: Float = 0.0f
+    private var parametersForGetWeather: Parameter = Parameter()
+    private val weatherMapVM by viewModels<WeatherMapViewModel> {
+        WeatherMapViewModelFactory(WeatherRepository())
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
         _binding = FragmentWeatherMapBinding.inflate(inflater, container, false)
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
@@ -56,9 +64,31 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map!!.setOnMapClickListener(this);
         updateLocationUI()
         getDeviceLocation()
-        //observeOptions(binding.root)
+        setUpWeather(binding.root)
+    }
+
+    private fun setUpWeather(view: View) {
+        weatherMapVM.fetchWeather.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                val weather = response.body() as WeatherResponse
+                updateUI(weather)
+            } else {
+                println(response.code())
+            }
+        })
+    }
+
+    private fun updateUI(weather: WeatherResponse) {
+        val zone = weather.timeZone.split("/")
+        binding.tvLocation.text = zone.last()
+        binding.tvTemp.text = "${weather.currentWeather.temperature.toInt()} °C"
+        binding.tvDescription.text = weather.currentWeather.weatherDescription[0].detailedDescription.uppercase()
+        val icon = weather.currentWeather.weatherDescription[0].icon
+        val imageUrl = "https://openweathermap.org/img/w/$icon.png"
+        Picasso.get().load(imageUrl).into(binding.ivIconWeather)
     }
 
     private fun updateLocationUI() {
@@ -78,7 +108,6 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback {
             val locationResult = fusedLocationProviderClient.lastLocation
             locationResult.addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    // Set the map's camera position to the current location of the device.
                     lastKnownLocation = task.result
                     if (lastKnownLocation != null) {
                         map?.moveCamera(
@@ -89,17 +118,9 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback {
                                 ), DEFAULT_ZOOM.toFloat()
                             )
                         )
-                        longitude = lastKnownLocation!!.longitude.toFloat()
-                        latitude = lastKnownLocation!!.latitude.toFloat()
-//                        marketForBuy =
-//                            BestOptionRequestModel(
-//                                token,
-//                                productsToBuyList.toTypedArray(),
-//                                longitude,
-//                                latitude,
-//                                binding.sliderDistance.value.toInt()
-//                            )
-//                        marketMapVM.setData(marketForBuy)
+                        parametersForGetWeather.longitude = lastKnownLocation!!.longitude.toFloat()
+                        parametersForGetWeather.latitude = lastKnownLocation!!.latitude.toFloat()
+                        weatherMapVM.setParameters(parametersForGetWeather)
                     }
                 } else {
                     Log.d(TAG, "Current location is null. Using defaults.")
@@ -114,5 +135,11 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback {
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
         }
+    }
+
+    override fun onMapClick(point: LatLng) {
+        parametersForGetWeather.longitude = point.longitude.toFloat()
+        parametersForGetWeather.latitude = point.latitude.toFloat()
+        weatherMapVM.setParameters(parametersForGetWeather)
     }
 }

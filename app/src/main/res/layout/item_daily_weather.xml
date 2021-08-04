@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@drawable/border_daily_weather"
+        android:paddingLeft="17dp"
+        android:paddingRight="17dp"
+        android:paddingBottom="17dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/designIcon" />
+
+    <TextView
+        android:id="@+id/tvMinAndMaxTemperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="12°C/25°C"
+        android:textColor="@android:color/background_dark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ivIcon"
+        app:layout_constraintStart_toStartOf="@+id/ivIcon" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="07:00 AM"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ivIcon"
+        app:layout_constraintTop_toTopOf="@+id/ivIcon" />
+</androidx.constraintlayout.widget.ConstraintLayout>
