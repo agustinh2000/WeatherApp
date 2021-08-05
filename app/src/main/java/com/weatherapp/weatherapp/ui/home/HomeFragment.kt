@@ -2,25 +2,21 @@ package com.weatherapp.weatherapp.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.squareup.picasso.Picasso
 import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
 import com.weatherapp.weatherapp.databinding.FragmentHomeBinding
@@ -116,14 +112,25 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         Picasso.get().load(imageUrl).into(binding.ivWeatherIcon)
     }
 
-    @SuppressLint("MissingPermission")
     private fun getDeviceLocation() {
         if (hasLocationPermission()) {
-            val locationResult = fusedLocationProviderClient.lastLocation
-            locationResult.addOnSuccessListener { location ->
-                parametersForGetWeather.longitude = location.longitude.toFloat()
-                parametersForGetWeather.latitude = location.latitude.toFloat()
-                homeVM.setParameters(parametersForGetWeather)
+            try {
+                val locationResult = fusedLocationProviderClient.lastLocation
+                locationResult.addOnCompleteListener(requireActivity()) { task ->
+                    if (task.isSuccessful) {
+                        lastKnownLocation = task.result
+                        if (lastKnownLocation != null) {
+                            parametersForGetWeather.longitude = lastKnownLocation!!.longitude.toFloat()
+                            parametersForGetWeather.latitude = lastKnownLocation!!.latitude.toFloat()
+                            homeVM.setParameters(parametersForGetWeather)
+                        }
+                    } else {
+                        Log.d(TAG, "Current location is null. Using defaults.")
+                        Log.e(TAG, "Exception: %s", task.exception)
+                    }
+                }
+            } catch (e: SecurityException) {
+                Log.e("Exception: %s", e.message, e)
             }
         }
         else{
@@ -151,7 +158,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
