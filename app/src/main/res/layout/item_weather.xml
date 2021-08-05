@@ -22,8 +22,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="140dp"
         app:layout_constraintStart_toStartOf="@+id/tvDay"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/humidity" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvMinTemperature"

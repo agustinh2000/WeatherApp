@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+app/src/main/java/com/weatherapp/weatherapp/ui/weatherMap/WeatherMapFragment 2.kt

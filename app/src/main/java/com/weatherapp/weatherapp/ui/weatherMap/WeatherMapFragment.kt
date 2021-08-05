@@ -17,7 +17,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import com.weatherapp.weatherapp.R
 import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
@@ -152,11 +151,5 @@ class WeatherMapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickL
         parametersForGetWeather.longitude = point.longitude.toFloat()
         parametersForGetWeather.latitude = point.latitude.toFloat()
         weatherMapVM.setParameters(parametersForGetWeather)
-        map!!.clear()
-        map!!.addMarker(
-            MarkerOptions()
-                .position(point)
-        )
-        map!!.moveCamera(CameraUpdateFactory.newLatLng(point))
     }
 }

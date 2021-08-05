@@ -15,15 +15,13 @@
         android:paddingRight="17dp"
         android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/design_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvCurrentTemperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:text="12°C"
         android:textColor="@android:color/background_dark"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +32,6 @@
         android:id="@+id/tvHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="07:00 AM"
         android:textColor="#000000"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
