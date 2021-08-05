@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
 }
 
 apply plugin: 'com.android.application'
@@ -11,13 +13,15 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.weatherapp"
+        applicationId "com.weatherapp.weatherapp"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "google_maps_key", "AIzaSyBhaBkHsX408D0PQJH5hxGqqat1tkPbJ5U"
 
     }
 

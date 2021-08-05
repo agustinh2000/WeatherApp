@@ -103,7 +103,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.tvDate.text =
             SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(Date(today * 1000))
         binding.tvCity.text = zone.last()
-        binding.tvTemperature.text = "${weather.currentWeather.temperature} °C"
+        binding.tvTemperature.text = "${weather.currentWeather.temperature.toInt()} °C"
         binding.tvSunriseTime.text =
             SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
         binding.tvSunsetTime.text =
