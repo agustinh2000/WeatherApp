@@ -27,8 +27,8 @@ class WeatherAdapter(
         override fun render(weather: DailyWeatherResponse) {
             val icon = weather.weatherDescription[0].icon
             val url = "https://openweathermap.org/img/w/$icon.png"
-            val minTemperature = weather.temperatureInfo.minTemperature.toString()
-            val maxTemperature = weather.temperatureInfo.maxTemperature.toString()
+            val minTemperature = weather.temperatureInfo.minTemperature.toInt().toString()
+            val maxTemperature = weather.temperatureInfo.maxTemperature.toInt().toString()
             val date = weather.dateTime
             Picasso.get().load(url).into(imageViewWeatherIcon)
             textViewMinTemperature.text = "$minTemperature °C"
