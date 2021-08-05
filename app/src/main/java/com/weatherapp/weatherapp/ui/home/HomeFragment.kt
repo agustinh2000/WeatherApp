@@ -1,7 +1,6 @@
 package com.weatherapp.weatherapp.ui.home
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.location.Location
 import android.os.Bundle
@@ -9,15 +8,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import com.weatherapp.weatherapp.api.Constants.Companion.DATE_PATTERN
+import com.weatherapp.weatherapp.api.Constants.Companion.HOUR_PATTERN
+import com.weatherapp.weatherapp.api.Constants.Companion.HUMIDITY_UNIT
+import com.weatherapp.weatherapp.api.Constants.Companion.PRESSURE_UNIT
+import com.weatherapp.weatherapp.api.Constants.Companion.TEMPERATURE_UNIT
+import com.weatherapp.weatherapp.api.Constants.Companion.URL_TO_GET_ICON
+import com.weatherapp.weatherapp.api.Constants.Companion.WEATHER_ICON_EXTENSION
+import com.weatherapp.weatherapp.api.Constants.Companion.WIND_SPEED_UNIT
+import com.weatherapp.weatherapp.api.Constants.Companion.ZONE_DELIMITER
 import com.weatherapp.weatherapp.api.model.weather.WeatherResponse
 import com.weatherapp.weatherapp.databinding.FragmentHomeBinding
 import com.weatherapp.weatherapp.repository.implementation.WeatherRepository
@@ -58,7 +66,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         getDeviceLocation()
-
         return binding.root
     }
 
@@ -83,32 +90,32 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 binding.rvTimeOfTheWeek.adapter = WeatherAdapter(weather.weeklyWeather)
                 updateUI(weather)
             } else {
-                println(response.code())
+                Snackbar.make(view, response.message(), Snackbar.LENGTH_SHORT).setAction("OK") {}.show()
             }
         })
     }
 
     private fun updateUI(weather: WeatherResponse) {
-        val zone = weather.timeZone.split("/")
+        val zone = weather.timeZone.split(ZONE_DELIMITER)
         val today = weather.currentWeather.dateTime
         val sunrise = weather.currentWeather.sunrise
         val sunset = weather.currentWeather.sunset
         val humidity = weather.currentWeather.humidity
         val windSpeed = weather.currentWeather.windSpeed
         val pressure = weather.currentWeather.pressure
+        val weatherIconCode = weather.currentWeather.weatherDescription[0].icon
+        val imageUrl = "$URL_TO_GET_ICON$weatherIconCode$WEATHER_ICON_EXTENSION"
         binding.tvDate.text =
-            SimpleDateFormat("EEE, d MMM yyyy", Locale.ENGLISH).format(Date(today * 1000))
+            SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH).format(Date(today * 1000))
         binding.tvCity.text = zone.last()
-        binding.tvTemperature.text = "${weather.currentWeather.temperature.toInt()} °C"
+        binding.tvTemperature.text = "${weather.currentWeather.temperature.toInt()} $TEMPERATURE_UNIT"
         binding.tvSunriseTime.text =
-            SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
+            SimpleDateFormat(HOUR_PATTERN, Locale.ENGLISH).format(Date(sunrise * 1000))
         binding.tvSunsetTime.text =
-            SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset * 1000))
-        binding.tvHumidityData.text = "${humidity} %"
-        binding.tvWindData.text = "${windSpeed} m/s"
-        binding.tvPressureData.text = "${pressure} hPa"
-        val icon = weather.currentWeather.weatherDescription[0].icon
-        val imageUrl = "https://openweathermap.org/img/w/$icon.png"
+            SimpleDateFormat(HOUR_PATTERN, Locale.ENGLISH).format(Date(sunset * 1000))
+        binding.tvHumidityData.text = "$humidity $HUMIDITY_UNIT"
+        binding.tvWindData.text = "$windSpeed $WIND_SPEED_UNIT"
+        binding.tvPressureData.text = "$pressure $PRESSURE_UNIT"
         Picasso.get().load(imageUrl).into(binding.ivWeatherIcon)
     }
 
@@ -170,11 +177,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        Toast.makeText(
-            requireContext(),
-            "Permission Granted!",
-            Toast.LENGTH_SHORT
-        ).show()
         getDeviceLocation()
     }
 
