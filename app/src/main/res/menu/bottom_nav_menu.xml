@@ -8,6 +8,6 @@
 
     <item
         android:id="@+id/navigation_weather_map"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_mapa"
         android:title="@string/title_weather_map" />
 </menu>

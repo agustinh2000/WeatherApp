@@ -7,6 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.weatherapp.weatherapp.R
+import com.weatherapp.weatherapp.api.Constants.Companion.HOUR_PATTERN
+import com.weatherapp.weatherapp.api.Constants.Companion.TEMPERATURE_UNIT
+import com.weatherapp.weatherapp.api.Constants.Companion.URL_TO_GET_ICON
+import com.weatherapp.weatherapp.api.Constants.Companion.WEATHER_ICON_EXTENSION
 import com.weatherapp.weatherapp.api.model.weather.HourlyWeatherResponse
 import com.weatherapp.weatherapp.ui.helpers.BaseViewHolder
 import com.weatherapp.weatherapp.ui.home.adapter.GenericAdapter
@@ -14,25 +18,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class WeatherMapAdapter(
-    private val hourlyWeatherList: Array<HourlyWeatherResponse>,
+    hourlyWeatherList: Array<HourlyWeatherResponse>,
 ) :
     GenericAdapter<HourlyWeatherResponse>(hourlyWeatherList) {
 
-    inner class WeatherMapHolder(val view: View) : BaseViewHolder<HourlyWeatherResponse>(view) {
+    inner class WeatherMapHolder(view: View) : BaseViewHolder<HourlyWeatherResponse>(view) {
         var imageViewWeatherIcon: ImageView = view.findViewById(R.id.ivIcon)
         var textViewHour: TextView = view.findViewById(R.id.tvHour)
         var textViewCurrentTemperature: TextView = view.findViewById(R.id.tvCurrentTemperature)
 
-
         override fun render(weather: HourlyWeatherResponse) {
-            val icon = weather.weatherDescription[0].icon
-            val url = "https://openweathermap.org/img/w/$icon.png"
+            val weatherIconCode = weather.weatherDescription[0].icon
+            val urlToGetImage = "$URL_TO_GET_ICON$weatherIconCode$WEATHER_ICON_EXTENSION"
             val currentTemperature = weather.temperature.toInt()
             val date = weather.dateTime
-            Picasso.get().load(url).into(imageViewWeatherIcon)
-            textViewCurrentTemperature.text = "$currentTemperature °C"
+            Picasso.get().load(urlToGetImage).into(imageViewWeatherIcon)
+            textViewCurrentTemperature.text = "$currentTemperature $TEMPERATURE_UNIT"
             textViewHour.text =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(date * 1000))
+                SimpleDateFormat(HOUR_PATTERN, Locale.ENGLISH).format(Date(date * 1000))
         }
     }
 

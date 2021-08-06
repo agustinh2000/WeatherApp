@@ -9,11 +9,12 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 
 class WeatherRepository : IWeatherRepository {
-    override suspend fun getWeather(lat: String, lon:String, units: String,appId: String): Response<WeatherResponse> {
+    override suspend fun getWeather(lat: String, lon:String, units: String, appId: String): Response<WeatherResponse> {
         return try {
             RetrofitInstance.weatherEndpoints.getWeather(lat, lon, units, appId)
         } catch (ex: Exception) {
             Log.e("Exception on getWeather", ex.message!!)
             Response.error(500, "SERVER_ERROR".toResponseBody("text/plain".toMediaTypeOrNull()))
-        }    }
+        }
+    }
 }
