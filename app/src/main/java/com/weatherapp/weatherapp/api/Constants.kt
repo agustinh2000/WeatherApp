@@ -15,5 +15,9 @@ class Constants {
         const val HUMIDITY_UNIT = "%"
         const val WIND_SPEED_UNIT = "m/s"
         const val PRESSURE_UNIT = "hPa"
+        const val DEFAULT_ZOOM_FOR_MAP = 13
+        const val DEFAULT_LATITUDE = -33.8523341
+        const val DEFAULT_LONGITUDE = 151.2106085
+        const val HOURS_IN_A_DAY = 24
     }
 }
