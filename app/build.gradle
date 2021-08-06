@@ -1,20 +1,28 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
 }
+
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.weatherapp"
+        applicationId "com.weatherapp.weatherapp"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "google_maps_key", "AIzaSyBhaBkHsX408D0PQJH5hxGqqat1tkPbJ5U"
+
     }
 
     buildTypes {
@@ -49,4 +57,16 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Location
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 }
